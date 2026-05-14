@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Halim Runs"/>
+<meta name="theme-color" content="#f8fafc"/>
+<title>Halim Runs — 16 Week Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:0.3}}
+.fi{animation:fi 0.2s ease}.pu{animation:pu 2s infinite}
+#app{max-width:640px;margin:0 auto;padding-bottom:80px}
+.hdr{background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%);padding:calc(env(safe-area-inset-top)+20px) 18px 20px;position:relative;overflow:hidden}
+.hdr-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,#3b82f620,transparent 60%)}
+.hdr-inner{position:relative}
+.hdr-tag{font-size:10px;letter-spacing:3px;color:#94a3b8;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.hdr-dot{width:6px;height:6px;border-radius:50%;background:#22c55e}
+.hdr-name{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
+.hdr-sub{font-size:12px;color:#64748b;margin-bottom:16px}
+.test-box{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.test-label{font-size:10px;color:#94a3b8;letter-spacing:2px;margin-bottom:8px}
+.test-stats{display:flex;gap:16px;flex-wrap:wrap}
+.ts-item .tsl{font-size:9px;color:#475569;letter-spacing:1px;margin-bottom:2px}
+.ts-item .tsv{font-weight:700;font-size:13px}
+.race-cards{display:flex;gap:10px}
+.rc{flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-left:3px solid;border-radius:12px;padding:12px}
+.rc-label{font-size:9px;letter-spacing:2px;margin-bottom:4px}
+.rc-days{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;line-height:1}
+.rc-target{font-family:'Syne',sans-serif;font-size:15px;margin-top:3px;font-weight:700}
+.rc-pace{font-size:10px;color:#64748b}
+.pbar{background:#fff;border-bottom:1px solid #e2e8f0;padding:8px 18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pbar-inner{display:flex;gap:12px;align-items:center;min-width:500px}
+.ph-item{display:flex;align-items:center;gap:5px}
+.ph-dot{width:8px;height:8px;border-radius:2px}
+.ph-name{font-size:10px;color:#64748b;white-space:nowrap;font-weight:500}
+.tabs{background:#fff;border-bottom:2px solid #f1f5f9;padding:0 18px;display:flex;position:sticky;top:0;z-index:99;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.tab{padding:13px 14px;font-size:11px;letter-spacing:0.5px;background:transparent;border:none;color:#94a3b8;border-bottom:2px solid transparent;font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;transition:all 0.2s;margin-bottom:-2px}
+.tab.active{color:#1e3a5f;border-bottom-color:#1e3a5f}
+.tc{padding:16px}
+.sec-label{font-size:10px;color:#94a3b8;letter-spacing:2px;margin-bottom:12px;font-weight:600}
+.wk-card{background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:1px solid #e2e8f0;border-left:4px solid}
+.wk-hdr{padding:14px 16px;cursor:pointer;transition:background 0.15s}
+.wk-hdr:active{background:#f8fafc}
+.wk-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.wk-left{display:flex;align-items:center;gap:10px}
+.wk-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:800}
+.wk-badge{font-size:9px;padding:3px 9px;border-radius:20px;font-weight:700;letter-spacing:1px}
+.wk-right{text-align:right}
+.wk-min{font-size:11px;color:#94a3b8;font-weight:500}
+.wk-arr{font-size:13px;color:#cbd5e1;margin-top:2px}
+.wk-dates{font-size:12px;color:#1e3a5f;font-weight:600;margin-bottom:4px}
+.wk-tip{font-size:11px;color:#64748b;line-height:1.5}
+.day-list{border-top:1px solid #f1f5f9}
+.day-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid #f8fafc;cursor:pointer;transition:background 0.12s}
+.day-row:active{background:#f8fafc}
+.day-date{min-width:82px}
+.day-dow{font-size:10px;color:#94a3b8;font-weight:600;letter-spacing:1px}
+.day-cal{font-size:11px;color:#374151;font-weight:600}
+.day-badge{font-size:9px;padding:3px 8px;border-radius:20px;font-weight:700;letter-spacing:0.5px;min-width:62px;text-align:center}
+.day-title{flex:1;font-size:12px;font-weight:500}
+.day-dur{font-size:10px;color:#94a3b8}
+.day-arr{font-size:11px;color:#cbd5e1;flex-shrink:0}
+.day-detail{padding:12px 16px 14px 108px;border-bottom:1px solid #f8fafc;border-left:3px solid}
+.dd-meta{font-size:11px;font-weight:600;margin-bottom:6px}
+.dd-note{font-size:12px;color:#374151;line-height:1.7}
+.pace-section{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:1px solid #e2e8f0;border-left:4px solid}
+.ps-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:4px}
+.ps-sub{font-size:10px;letter-spacing:1px;margin-bottom:14px;font-weight:600}
+.split-row{display:flex;gap:12px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f1f5f9;align-items:flex-start}
+.split-seg{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;min-width:62px}
+.split-pace{font-size:12px;font-weight:600;margin-bottom:2px}
+.split-note{font-size:11px;color:#6b7280}
+.train-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.tr-type{min-width:110px;font-size:11px;font-weight:600;color:#1e3a5f}
+.tr-pace{font-size:12px;font-weight:600;color:#0f172a}
+.tr-why{font-size:10px;color:#94a3b8;margin-top:2px}
+.heat-tip{background:#fefce8;border:1px solid #fde047;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:11px;color:#713f12;line-height:1.6}
+.race-tip{border-radius:10px;padding:10px 12px;margin-top:10px;font-size:11px;line-height:1.8}
+.str-card{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.05);border:1px solid #e2e8f0;border-left:3px solid #6366f1}
+.str-num{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#c7d2fe;min-width:24px}
+.str-name{font-size:13px;font-weight:600;color:#0f172a;margin-bottom:2px}
+.str-sets{font-size:11px;color:#6366f1;font-weight:600;margin-bottom:1px}
+.str-p{font-size:10px;color:#94a3b8}
+.vid-btn{background:#ef4444;color:#fff;border-radius:8px;padding:6px 11px;font-size:10px;text-decoration:none;font-family:'Inter',sans-serif;font-weight:700;white-space:nowrap;display:inline-block;flex-shrink:0}
+.zone-card{background:#fff;border-radius:12px;padding:13px 15px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05);border:1px solid #e2e8f0;border-left:4px solid}
+.zc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.zc-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800}
+.zc-range{font-size:14px;font-weight:700;color:#0f172a}
+.zc-feel{font-size:11px;color:#64748b}
+.rule-card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);border:1px solid #e2e8f0}
+.rule-title-bar{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#1e3a5f;margin-bottom:12px}
+.rule-row{padding:8px 0;border-bottom:1px solid #f1f5f9}
+.rule-r{font-size:11px;color:#1e3a5f;font-weight:600;margin-bottom:2px}
+.rule-a{font-size:12px;color:#374151}
+.info-card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:1px solid #e2e8f0}
+.ic-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:6px}
+.ic-body{font-size:12px;color:#374151;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="hdr">
+  <div class="hdr-glow"></div>
+  <div class="hdr-inner">
+    <div class="hdr-tag"><div class="hdr-dot pu"></div>Revised · 13 May 2026 Fitness Test</div>
+    <div class="hdr-name">HALIM<br><span style="color:#34d399">HAMDAN</span></div>
+    <div class="hdr-sub">34yo · 75kg · Johor Bahru · 16 Weeks · Start 11 May 2026</div>
+    <div class="test-box">
+      <div class="test-label">📊 FITNESS TEST — WED 13 MAY 2026</div>
+      <div class="test-stats">
+        <div class="ts-item"><div class="tsl">PACE</div><div class="tsv" style="color:#34d399">5:44/km</div></div>
+        <div class="ts-item"><div class="tsl">AVG HR</div><div class="tsv" style="color:#f97316">167 bpm</div></div>
+        <div class="ts-item"><div class="tsl">EFFICIENCY</div><div class="tsv" style="color:#38bdf8">114% ✦</div></div>
+        <div class="ts-item"><div class="tsl">CONDITIONS</div><div class="tsv" style="color:#fbbf24">30°C/87%</div></div>
+        <div class="ts-item"><div class="tsl">HEAT-ADJ</div><div class="tsv" style="color:#a78bfa">~5:05/km</div></div>
+      </div>
+    </div>
+    <div class="race-cards">
+      <div class="rc" style="border-left-color:#f97316">
+        <div class="rc-label" style="color:#f97316">RACE 1 · SUN 19 JUL</div>
+        <div class="rc-days pu" id="days1">—</div>
+        <div class="rc-target" style="color:#f97316">Sub-2:05</div>
+        <div class="rc-pace">5:57/km</div>
+      </div>
+      <div class="rc" style="border-left-color:#ef4444">
+        <div class="rc-label" style="color:#ef4444">RACE 2 · SUN 30 AUG</div>
+        <div class="rc-days pu" id="days2">—</div>
+        <div class="rc-target" style="color:#ef4444">Sub-1:55</div>
+        <div class="rc-pace">5:27/km</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pbar">
+  <div class="pbar-inner">
+    <span style="font-size:9px;color:#cbd5e1;letter-spacing:2px;font-weight:600">PHASES</span>
+    <div class="ph-item"><div class="ph-dot" style="background:#22c55e"></div><span class="ph-name">BASE wk1-3</span></div>
+    <div class="ph-item"><div class="ph-dot" style="background:#f59e0b"></div><span class="ph-name">BUILD wk4-7</span></div>
+    <div class="ph-item"><div class="ph-dot" style="background:#f97316"></div><span class="ph-name">PEAK1 wk8-9</span></div>
+    <div class="ph-item"><div class="ph-dot" style="background:#8b5cf6"></div><span class="ph-name">TAPER1 wk10 🏁19Jul</span></div>
+    <div class="ph-item"><div class="ph-dot" style="background:#06b6d4"></div><span class="ph-name">BRIDGE wk11-15</span></div>
+    <div class="ph-item"><div class="ph-dot" style="background:#ef4444"></div><span class="ph-name">PEAK2 wk16 🏁30Aug</span></div>
+  </div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('plan',this)">📅 Plan</button>
+  <button class="tab" onclick="showTab('pacing',this)">🎯 Pacing</button>
+  <button class="tab" onclick="showTab('strength',this)">💪 Strength</button>
+  <button class="tab" onclick="showTab('zones',this)">❤️ Zones</button>
+</div>
+<div id="tab-plan" class="tc fi"></div>
+<div id="tab-pacing" class="tc fi" style="display:none">
+  <div class="pace-section" style="border-left-color:#1e3a5f">
+    <div class="ps-title" style="color:#1e3a5f">TRAINING PACES</div>
+    <div id="train-table"></div>
+    <div class="heat-tip">🇲🇾 Hot day rule: Above 30°C or 80% humidity → add 20-30s/km to all paces, raise HR caps by 5 bpm. Run by HR, ignore pace on hot days.</div>
+  </div>
+  <div class="pace-section" style="border-left-color:#f97316">
+    <div class="ps-title" style="color:#f97316">RACE 1 · SUN 19 JUL · SUB-2:05</div>
+    <div class="ps-sub" style="color:#ea580c">TARGET: 5:57/km · DON'T EXCEED 170bpm BEFORE KM 10</div>
+    <div id="r1-splits"></div>
+  </div>
+  <div class="pace-section" style="border-left-color:#ef4444">
+    <div class="ps-title" style="color:#ef4444">RACE 2 · SUN 30 AUG · SUB-1:55</div>
+    <div class="ps-sub" style="color:#dc2626">TARGET: 5:27/km · ZERO MARGIN · DISCIPLINE WINS</div>
+    <div id="r2-splits"></div>
+    <div class="race-tip" style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b">
+      ✅ Run first 3km by HR only — don't look at pace.<br>
+      ✅ At 75kg, HR drifts 3-5 bpm per km after km 14 — normal.<br>
+      ⚠️ One km at 6:00 = chasing for 18km. Discipline wins.
+    </div>
+  </div>
+</div>
+<div id="tab-strength" class="tc fi" style="display:none">
+  <div class="info-card">
+    <div class="ic-title" style="color:#4f46e5">BODYWEIGHT CIRCUIT · NO EQUIPMENT</div>
+    <div class="ic-body">2–3 rounds · 60 sec rest between rounds · ~30 min<br>
+      <strong style="color:#4f46e5">BASE/BUILD:</strong> 2–3×/week &nbsp;·&nbsp;
+      <strong style="color:#4f46e5">PEAK:</strong> 1×/week &nbsp;·&nbsp;
+      <strong style="color:#4f46e5">TAPER:</strong> skip
+    </div>
+  </div>
+  <div id="strength-list"></div>
+  <div class="info-card" style="background:#f0fdf4;border-color:#bbf7d0">
+    <div class="ic-title" style="color:#166534">PROGRESSION</div>
+    <div class="ic-body" style="color:#166534">
+      Wk 1–3 (BASE): 2 rounds. Master form.<br>
+      Wk 4–7 (BUILD): 3 rounds. Slower reps, pause at bottom.<br>
+      Wk 8–9 (PEAK 1): 2 rounds. Maintenance only.<br>
+      Wk 10 (TAPER 1): Skip entirely.<br>
+      Wk 11 (RECOVERY): Light 2 rounds.<br>
+      Wk 12–15 (BRIDGE): 2–3 rounds. Single-leg emphasis.<br>
+      Wk 16 (PEAK 2): Skip entirely.
+    </div>
+  </div>
+</div>
+<div id="tab-zones" class="tc fi" style="display:none">
+  <div class="info-card">
+    <div class="ic-title">REVISED HR ZONES</div>
+    <div class="ic-body">Updated from 13 May fitness test. You ran 5:44/km at 167 bpm in 30°C heat — true max HR is higher than the formula predicted. Zones revised upward.</div>
+  </div>
+  <div id="zones-list"></div>
+  <div class="rule-card">
+    <div class="rule-title-bar">PRACTICAL RULES</div>
+    <div id="rules-list"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const WEEK1_START = new Date(2026,4,11); // Mon 11 May 2026
+
+function getWeekDates(weekNum){
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const start=new Date(WEEK1_START);
+  start.setDate(start.getDate()+(weekNum-1)*7);
+  const end=new Date(start); end.setDate(end.getDate()+6);
+  return {
+    label:`${start.getDate()} ${months[start.getMonth()]} – ${end.getDate()} ${months[end.getMonth()]}`,
+    days:Array.from({length:7},(_,i)=>{
+      const d=new Date(start); d.setDate(d.getDate()+i);
+      return `${d.getDate()} ${months[d.getMonth()]}`;
+    })
+  };
+}
+
+const PC={BASE:"#22c55e",BUILD:"#f59e0b",PEAK1:"#f97316",TAPER1:"#8b5cf6",BRIDGE:"#06b6d4",PEAK2:"#ef4444"};
+const PL={BASE:"BASE",BUILD:"BUILD",PEAK1:"PEAK 1",TAPER1:"TAPER 1",BRIDGE:"BRIDGE",PEAK2:"PEAK 2"};
+const BS={
+  rest:    {bg:"#f1f5f9",t:"#64748b"},
+  easy:    {bg:"#dcfce7",t:"#15803d"},
+  long:    {bg:"#dbeafe",t:"#1d4ed8"},
+  tempo:   {bg:"#fef9c3",t:"#a16207"},
+  intervals:{bg:"#fee2e2",t:"#dc2626"},
+  racepace:{bg:"#ede9fe",t:"#6d28d9"},
+  strength:{bg:"#e0e7ff",t:"#4338ca"},
+  baseline:{bg:"#fef9c3",t:"#b45309"},
+  raceday: {bg:"#fee2e2",t:"#dc2626"},
+};
+const DS={
+  rest:    {bg:"#f8fafc",b:"#e2e8f0",meta:"#64748b",t:"#374151"},
+  easy:    {bg:"#f0fdf4",b:"#22c55e",meta:"#15803d",t:"#166534"},
+  long:    {bg:"#eff6ff",b:"#3b82f6",meta:"#1d4ed8",t:"#1e40af"},
+  tempo:   {bg:"#fefce8",b:"#f59e0b",meta:"#a16207",t:"#78350f"},
+  intervals:{bg:"#fff1f2",b:"#ef4444",meta:"#dc2626",t:"#991b1b"},
+  racepace:{bg:"#f5f3ff",b:"#8b5cf6",meta:"#6d28d9",t:"#4c1d95"},
+  strength:{bg:"#eef2ff",b:"#6366f1",meta:"#4338ca",t:"#312e81"},
+  baseline:{bg:"#fefce8",b:"#f59e0b",meta:"#b45309",t:"#78350f"},
+  raceday: {bg:"#fff1f2",b:"#ef4444",meta:"#dc2626",t:"#991b1b"},
+};
+const TL={rest:"REST",easy:"EASY",long:"LONG RUN",tempo:"TEMPO",intervals:"INTERVALS",racepace:"RACE PACE",strength:"STRENGTH",baseline:"🔬 BASELINE",raceday:"🏁 RACE DAY"};
+const DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+const r=(note="Full rest.")=>({type:"rest",title:"REST",dur:null,hr:null,pace:null,note});
+const e=(m,note)=>({type:"easy",title:`EASY ${m}min`,dur:m,hr:"130–143 bpm",pace:"8:00–9:00/km",note});
+const l=(m,kc,note)=>({type:"long",title:`LONG RUN ${m}min`,dur:m,hr:"130–148 bpm",pace:"8:00–8:45/km",kcal:kc,note});
+const t=(m,note)=>({type:"tempo",title:`TEMPO ${m}min`,dur:m,hr:"155–168 bpm",pace:"6:20–6:45/km",note});
+const iv=(n,note)=>({type:"intervals",title:`INTERVALS ${n}×600m`,dur:null,hr:"168–178 bpm",pace:"5:10–5:30/km",note});
+const p1=(m,note)=>({type:"racepace",title:`RACE PACE ${m}min`,dur:m,hr:"158–167 bpm",pace:"5:57/km",note});
+const p2=(m,note)=>({type:"racepace",title:`RACE PACE ${m}min`,dur:m,hr:"163–172 bpm",pace:"5:27/km",note});
+const s=(note="Full circuit. 60s rest between rounds.")=>({type:"strength",title:"STRENGTH 30min",dur:30,hr:null,pace:null,note});
+const BASE_TEST={type:"baseline",title:"🔬 FITNESS TEST — Baseline",dur:19,hr:"167 bpm avg",pace:"5:44/km",note:"DONE ✅ — 13 May 2026, Iskandar Puteri. 3.22km @ 5:44/km, HR avg 167, max 179. Efficiency 114% Excellent. 30°C/87% humidity. Heat-adjusted = ~5:05/km. Day 1 benchmark set."};
+const R1={type:"raceday",title:"🏁 RACE 1 — Sub 2:05!",dur:125,hr:"158–172 bpm",pace:"5:57/km",note:"Km1-3: 6:05-6:10/km — HOLD BACK. Km4-8: settle 5:57-6:02. Km9-15: hold form HR 162-167. Km16-19: push if HR<170. Km20-21: everything left. Don't exceed 170bpm before km 10."};
+const R2={type:"raceday",title:"🏁 RACE 2 — Sub 1:55!",dur:115,hr:"163–175 bpm",pace:"5:27/km",note:"Km1-3: 5:35-5:40/km — HOLD BACK non-negotiable. Km4-10: lock 5:27-5:33, HR 165-170. Km11-16: mental battle, hold form. Km17-19: push if HR<173. Km20-21: run scared. 16 weeks in your legs."};
+
+// ── 16 WEEKS ─────────────────────────────────────────────────────────
+// Wk1:  11-17 May  | BASE
+// Wk2:  18-24 May  | BASE
+// Wk3:  25-31 May  | BASE
+// Wk4:   1-7 Jun   | BUILD
+// Wk5:   8-14 Jun  | BUILD
+// Wk6:  15-21 Jun  | BUILD
+// Wk7:  22-28 Jun  | BUILD
+// Wk8:  29Jun-5Jul | PEAK1
+// Wk9:   6-12 Jul  | PEAK1
+// Wk10: 13-19 Jul  | TAPER1 → RACE 1 Sun 19 Jul
+// Wk11: 20-26 Jul  | BRIDGE (recovery)
+// Wk12: 27Jul-2Aug | BRIDGE
+// Wk13:  3-9 Aug   | BRIDGE
+// Wk14: 10-16 Aug  | BRIDGE
+// Wk15: 17-23 Aug  | BRIDGE
+// Wk16: 24-30 Aug  | PEAK2  → RACE 2 Sun 30 Aug
+
+const WEEKS=[
+  {w:1,phase:"BASE",tip:"Baseline week. Wed 13 May fitness test done. Easy runs stay easy — HR 130-143 only.",sessions:[
+    r("Active recovery. 20min walk. Stretch hips & calves 10min."),
+    r("Rest or easy 20min walk."),
+    BASE_TEST,
+    s("2 rounds. Master form: Squats, Glute Bridges, Dead Bug, Plank, Calf Raises."),
+    e(40,"Z2 easy. HR 130-143. Run by HR not pace. ~5km."),
+    r("Full rest. Hydrate well for tomorrow."),
+    l(60,525,"First long run. HR under 148. ~7km. Bring isotonic. Easy throughout."),
+  ]},
+  {w:2,phase:"BASE",tip:"Build aerobic base quietly. The fitness is there — base phase prevents injury.",sessions:[
+    r("Full rest."),
+    e(40,"Z2 easy. HR 130-143. ~5km."),
+    s("2 rounds. Add Reverse Lunges & Single-leg RDL this week."),
+    e(50,"Longer mid-week. Z2. ~6km. Slow if HR above 145 on flat."),
+    r("Full rest."),
+    l(75,675,"~9km easy effort. Walk 1min at 50min if needed. Bring isotonic."),
+    r("Recovery stretching 15min. Foam roll."),
+  ]},
+  {w:3,phase:"BASE",tip:"Practise fuelling on long run. Race day nutrition starts now, not race day.",sessions:[
+    r("Full rest."),
+    e(40,"Z2 easy. HR 130-143."),
+    s("3 rounds. All 8 exercises. 60s rest between rounds."),
+    e(55,"Longer mid-week. ~6.5km. Bring isotonic drink."),
+    r("Full rest."),
+    l(85,750,"~10km. Sip isotonic at 40min. Practice fuelling. Easy all the way."),
+    r("Recovery. BASE PHASE complete ✅"),
+  ]},
+  {w:4,phase:"BUILD",tip:"First tempo run. Target HR 155-168. If you can still talk easily, not working hard enough.",sessions:[
+    r("Full rest."),
+    e(45,"Z2 easy. HR 130-143."),
+    t(40,"10min easy → 20min tempo (HR 155-168, ~6:30-6:45/km) → 10min easy. Don't exceed 168bpm."),
+    e(40,"Easy recovery after tempo. Very easy, no pace pressure."),
+    s("3 rounds. Focus: Glute Bridges 3×20, Hip Abduction 3×15."),
+    l(90,825,"~11km. Easy throughout. Slight negative split — 2nd half 10s/km faster."),
+    r("Recovery + foam roll."),
+  ]},
+  {w:5,phase:"BUILD",tip:"Tempo effort = 7/10. Hard but you could hold it 20 minutes if needed.",sessions:[
+    r("Full rest."),
+    e(45,"Z2 easy. HR 130-143."),
+    t(45,"10min easy → 25min tempo (HR 155-168) → 10min easy. Consistent HR, not pace."),
+    e(40,"Easy recovery. Very easy after tempo."),
+    s("3 rounds. Slower controlled reps. Pause at bottom of squats."),
+    l(95,900,"~12km. Sip isotonic at 45min & 75min. Easy pace throughout."),
+    r("Full rest."),
+  ]},
+  {w:6,phase:"BUILD",tip:"First intervals. 600m bursts build speed without destroying legs.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy. HR 130-143."),
+    iv(5,"10min easy → 5×600m (HR 168-178, pace 5:10-5:30/km) → 90sec walk between reps → 10min easy. Controlled hard effort, not sprint."),
+    e(40,"Very easy recovery after intervals. HR under 140."),
+    s("Light session. Focus: Dead Bug, Plank, Calf Raises."),
+    l(100,900,"~12-13km. Conversational pace all through."),
+    r("Recovery stretch."),
+  ]},
+  {w:7,phase:"BUILD",tip:"100min long run — break it into chunks of 33min mentally. One at a time.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy. HR 130-143."),
+    t(50,"10min easy → 30min tempo (HR 155-168) → 10min easy. Consistent HR throughout."),
+    e(40,"Easy recovery."),
+    s("3 rounds. Full circuit. Pause at bottom of squats."),
+    l(100,975,"~13km. Fuel at 45min & 80min. Walk 1min if HR >152 on any hill."),
+    r("Rest — you earned it."),
+  ]},
+  {w:8,phase:"PEAK1",tip:"Race pace session at 5:57/km. Feel your sub-2:05 target in your body.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy. HR 130-143."),
+    p1(50,"10min easy → 30min at 5:57/km (HR 158-165) → 10min easy. This is your race rehearsal."),
+    e(40,"Easy recovery after race pace session."),
+    s("2 rounds only. Maintenance — don't fatigue legs."),
+    l(110,1050,"~14km. Easy pace. Fuel at 50min & 85min. Simulate race morning routine."),
+    r("Foam roll everything. Prioritise sleep."),
+  ]},
+  {w:9,phase:"PEAK1",tip:"Peak intervals. These sessions are why race day will feel easier.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy."),
+    iv(6,"10min easy → 6×600m (HR 168-178, pace 5:10-5:20/km) → 90sec walk → 10min easy."),
+    e(40,"Easy recovery — mandatory slow day."),
+    s("2 rounds maintenance only."),
+    l(95,900,"Pull back slightly. Easy pace. ~12km."),
+    r("Rest."),
+  ]},
+  {w:10,phase:"TAPER1",tip:"TAPER WEEK — Race 1 is Sunday 19 Jul. Feeling flat is NORMAL. Body is storing energy.",sessions:[
+    r("Full rest."),
+    e(40,"Easy. Keep legs fresh. HR under 140."),
+    e(30,"25min easy + 3×100m strides at end. Feel sharp, not tired."),
+    r("Rest. Trust your training."),
+    e(25,"Shakeout 20min easy + 2 strides. Lay out race kit tonight: bib, shoes, socks, watch, gels."),
+    r("Rest. Carb-rich dinner. Hydrate. Sleep by 10pm."),
+    R1,
+  ]},
+  {w:11,phase:"BRIDGE",tip:"Recovery week after Race 1. No hard running — let your body absorb the race.",sessions:[
+    r("Full rest. Legs sore = normal."),
+    r("20-30min walk only. No running."),
+    e(30,"Very gentle jog. HR under 135. If anything hurts, walk."),
+    r("Full rest."),
+    e(40,"Easy Z2. Assess legs. Stop if pain."),
+    l(60,525,"Gentle easy run. ~7km. No pressure. Just movement."),
+    r("Recovery. Ice any sore spots."),
+  ]},
+  {w:12,phase:"BRIDGE",tip:"Sub-1:55 requires 5:27/km. Rebuild mileage this week — tempo pace getting tighter.",sessions:[
+    r("Full rest."),
+    e(45,"Back to normal easy running. Z2."),
+    t(50,"10min easy → 30min tempo (HR 158-168, ~6:10-6:25/km — tighter than Race 1 tempo) → 10min easy."),
+    e(40,"Easy recovery."),
+    s("3 rounds. Reset form after 2 weeks off strength."),
+    l(80,750,"Easy long run rebuild. ~10km."),
+    r("Rest."),
+  ]},
+  {w:13,phase:"BRIDGE",tip:"KEY WEEK — race pace at 5:27/km for the first time. This will feel hard. That's right.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy."),
+    p2(55,"10min easy → 35min at 5:27/km (HR 163-172) → 10min easy. If HR hits 175+, slow to 5:40. Hardest session in the plan."),
+    e(40,"Easy recovery."),
+    s("3 rounds full circuit."),
+    l(90,825,"Easy long run. ~11km."),
+    r("Rest."),
+  ]},
+  {w:14,phase:"BRIDGE",tip:"Biggest interval week. Fastest you'll run in training. This builds your Race 2 engine.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy."),
+    iv(7,"10min easy → 7×600m (HR 168-178, pace 5:00-5:15/km) → 90sec walk → 10min easy. Fastest interval week."),
+    e(40,"Very easy recovery."),
+    s("2 rounds only — don't trash legs before long run."),
+    l(110,975,"Peak long run with race sim: km 8-12 at 5:45-5:55/km, rest easy. ~13km."),
+    r("Rest — priority sleep tonight."),
+  ]},
+  {w:15,phase:"BRIDGE",tip:"Start sharpening for Race 2. Race pace feeling more natural now.",sessions:[
+    r("Full rest."),
+    e(50,"Z2 easy."),
+    p2(50,"10min easy → 30min at 5:27/km (HR 163-172) → 10min easy. Confirm race pace feels controlled."),
+    e(40,"Easy recovery."),
+    s("2 rounds maintenance. Light session."),
+    l(90,825,"Easy long run. ~11km. Last big long run before Race 2."),
+    r("Rest."),
+  ]},
+  {w:16,phase:"PEAK2",tip:"RACE 2 WEEK — You have the fitness. Arrive fresh, sharp, confident. Race 2 is Sun 30 Aug.",sessions:[
+    r("Full rest."),
+    e(40,"Light and easy. HR under 140."),
+    p2(40,"10min easy → 20min at 5:27/km → 10min easy. Final confirmation race pace feels natural."),
+    r("Rest. Trust 16 weeks of work."),
+    e(25,"Easy 25min + 2×100m strides. Lay out race kit tonight."),
+    r("Rest. Carb-rich dinner. Sleep by 10pm."),
+    R2,
+  ]},
+];
+
+const ST_DATA=[
+  {n:"Bodyweight Squats",s:"3×15",p:"Quad & glute power",y:"https://www.youtube.com/watch?v=YaXPRqUwItQ"},
+  {n:"Reverse Lunges",s:"3×12 each leg",p:"Single-leg running stability",y:"https://www.youtube.com/watch?v=xrjEBsHHJuc"},
+  {n:"Glute Bridges",s:"3×20",p:"Hip drive & knee protection",y:"https://www.youtube.com/watch?v=OUgsJ8-Vi0E"},
+  {n:"Calf Raises",s:"3×20",p:"Push-off power & Achilles",y:"https://www.youtube.com/watch?v=-M4-G8p1fCI"},
+  {n:"Dead Bug",s:"3×10 each",p:"Core stability, running form",y:"https://www.youtube.com/watch?v=4XLEnwUr1d8"},
+  {n:"Hip Abduction",s:"3×15 each",p:"Glute med, prevents knee cave",y:"https://www.youtube.com/watch?v=TmvBRt2UXNA"},
+  {n:"Plank",s:"3×45 sec",p:"Core endurance & posture",y:"https://www.youtube.com/watch?v=ASdvN_XEl_c"},
+  {n:"Single-leg RDL",s:"3×10 each",p:"Hamstring & ankle balance",y:"https://www.youtube.com/watch?v=fQUaGTzJFEo"},
+];
+
+const ZONES=[
+  {z:"Z1",name:"Recovery",range:"< 130",color:"#64748b",feel:"Walk pace, no effort"},
+  {z:"Z2",name:"Easy",range:"130–143",color:"#22c55e",feel:"Full sentences, effortless"},
+  {z:"Z3",name:"Aerobic",range:"143–155",color:"#f59e0b",feel:"Comfortable, sentence by sentence"},
+  {z:"Z4",name:"Tempo",range:"155–168",color:"#f97316",feel:"Uncomfortable, 2-3 words only"},
+  {z:"Z5",name:"Hard",range:"168–178",color:"#ef4444",feel:"Can't speak, intervals only"},
+];
+
+const TRAIN_PACES=[
+  {type:"Easy / Long",pace:"8:00–9:00/km",hr:"130–143",why:"80% of all runs. Conversational."},
+  {type:"Tempo",pace:"6:20–6:45/km",hr:"155–168",why:"Threshold work. Uncomfortable but controlled."},
+  {type:"Intervals 600m",pace:"5:10–5:30/km",hr:"168–178",why:"Speed bursts. Can't speak during reps."},
+  {type:"Race Pace R1",pace:"5:57/km",hr:"158–167",why:"Sub-2:05 feel. Weeks 8 & 10."},
+  {type:"Race Pace R2",pace:"5:27/km",hr:"163–172",why:"Sub-1:55 feel. Weeks 13, 15 & 16."},
+];
+
+const R1S=[
+  {seg:"Km 1–3",pace:"6:05–6:10",hr:"152–158",note:"Hold back. Crowd adrenaline will push you. Resist.",c:"#16a34a"},
+  {seg:"Km 4–8",pace:"5:57–6:02",hr:"158–163",note:"Settle into rhythm. Controlled breathing.",c:"#ca8a04"},
+  {seg:"Km 9–15",pace:"5:57–6:00",hr:"162–167",note:"Your race. Consistent effort.",c:"#ea580c"},
+  {seg:"Km 16–19",pace:"5:50–5:57",hr:"165–170",note:"Push if legs fresh and HR under 170.",c:"#dc2626"},
+  {seg:"Km 20–21",pace:"Everything",hr:"170–178",note:"Empty the tank. Nothing saved.",c:"#9f1239"},
+];
+
+const R2S=[
+  {seg:"Km 1–3",pace:"5:35–5:40",hr:"155–162",note:"HOLD BACK. Start slower than target. Non-negotiable.",c:"#16a34a"},
+  {seg:"Km 4–10",pace:"5:27–5:33",hr:"163–168",note:"Lock in. Metronome. If HR >170 → back to 5:40.",c:"#ca8a04"},
+  {seg:"Km 11–16",pace:"5:27–5:30",hr:"166–171",note:"Mental battle. Short strides. Arms drive you.",c:"#ea580c"},
+  {seg:"Km 17–19",pace:"5:20–5:27",hr:"169–174",note:"Push if HR under 173 and legs responding.",c:"#dc2626"},
+  {seg:"Km 20–21",pace:"Run scared",hr:"173–180",note:"16 weeks in your legs. Leave everything here.",c:"#9f1239"},
+];
+
+const RULES=[
+  {r:"Easy runs",a:"Cap at 143 bpm. Above 145 on flat ground = slow down."},
+  {r:"Tempo",a:"Target 155–168 bpm. Above 170 mid-tempo = ease off 20s/km."},
+  {r:"Race 1 — Sun 19 Jul",a:"Red flag: 170+ before km 10. Slow down immediately."},
+  {r:"Race 2 — Sun 30 Aug",a:"Red flag: 173+ before km 8. Back off to 5:40/km."},
+  {r:"Hot days 🇲🇾",a:"Add 5 bpm to all zone ceilings. Run by HR, ignore pace."},
+  {r:"Coros HR alert",a:"Set upper alarm at 143 for easy runs, 170 for tempo."},
+];
+
+function updateCountdowns(){
+  const now=new Date();
+  const d1=Math.ceil((new Date(2026,6,19)-now)/86400000);
+  const d2=Math.ceil((new Date(2026,7,30)-now)/86400000);
+  document.getElementById("days1").textContent=d1+" days";
+  document.getElementById("days2").textContent=d2+" days";
+}
+updateCountdowns();
+
+function buildPlan(){
+  const container=document.getElementById("tab-plan");
+  container.innerHTML='<div class="sec-label">TAP WEEK THEN TAP DAY FOR FULL DETAILS</div>';
+  WEEKS.forEach(wk=>{
+    const pc=PC[wk.phase];
+    const wd=getWeekDates(wk.w);
+    const totalMin=wk.sessions.reduce((a,s)=>a+(s.dur||0),0);
+    const wDiv=document.createElement("div");
+    wDiv.className="wk-card";
+    wDiv.style.borderLeftColor=pc;
+    const hdr=document.createElement("div");
+    hdr.className="wk-hdr";
+    hdr.innerHTML=`
+      <div class="wk-top">
+        <div class="wk-left">
+          <div class="wk-num" style="color:${pc}">WK${wk.w}</div>
+          <div class="wk-badge" style="background:${pc}20;color:${pc}">${PL[wk.phase]}</div>
+          ${wk.phase==="TAPER1"?"<span style='font-size:14px'>🏁</span>":""}
+          ${wk.phase==="PEAK2"?"<span style='font-size:14px'>🏁</span>":""}
+        </div>
+        <div class="wk-right">
+          <div class="wk-min">${totalMin} min</div>
+          <div class="wk-arr" id="arr-${wk.w}">▼</div>
+        </div>
+      </div>
+      <div class="wk-dates">📅 ${wd.label}</div>
+      <div class="wk-tip">💡 ${wk.tip}</div>`;
+    const dList=document.createElement("div");
+    dList.className="day-list";
+    dList.style.display="none";
+    wk.sessions.forEach((sess,i)=>{
+      const b=BS[sess.type]||BS.rest;
+      const d=DS[sess.type]||DS.rest;
+      const dateStr=wd.days[i];
+      const dRow=document.createElement("div");
+      dRow.className="day-row";
+      dRow.innerHTML=`
+        <div class="day-date">
+          <div class="day-dow">${DAYS[i]}</div>
+          <div class="day-cal">${dateStr}</div>
+        </div>
+        <div class="day-badge" style="background:${b.bg};color:${b.t}">${TL[sess.type]||sess.type.toUpperCase()}</div>
+        <div class="day-title" style="color:${b.t}">${sess.title}</div>
+        ${sess.dur?`<div class="day-dur">${sess.dur}min</div>`:""}
+        <div class="day-arr" id="da-${wk.w}-${i}">›</div>`;
+      const dDetail=document.createElement("div");
+      dDetail.className="day-detail";
+      dDetail.style.cssText=`display:none;background:${d.bg};border-left-color:${d.b}`;
+      dDetail.innerHTML=`
+        ${(sess.hr||sess.pace)?`<div class="dd-meta" style="color:${d.meta}">
+          ${sess.pace?`⏱ ${sess.pace}`:""}
+          ${sess.pace&&sess.hr?" &nbsp;·&nbsp; ":""}
+          ${sess.hr?`❤️ ${sess.hr}`:""}
+          ${sess.kcal?` &nbsp;·&nbsp; 🔥 ~${sess.kcal} kcal`:""}
+        </div>`:""}
+        <div class="dd-note" style="color:${d.t}">${sess.note}</div>`;
+      dRow.addEventListener("click",ev=>{
+        ev.stopPropagation();
+        const open=dDetail.style.display!=="none";
+        dDetail.style.display=open?"none":"block";
+        document.getElementById(`da-${wk.w}-${i}`).textContent=open?"›":"▲";
+        dRow.style.background=open?"":"#f8fafc";
+      });
+      dList.appendChild(dRow);
+      dList.appendChild(dDetail);
+    });
+    hdr.addEventListener("click",()=>{
+      const open=dList.style.display!=="none";
+      dList.style.display=open?"none":"block";
+      document.getElementById(`arr-${wk.w}`).textContent=open?"▼":"▲";
+    });
+    wDiv.appendChild(hdr);
+    wDiv.appendChild(dList);
+    container.appendChild(wDiv);
+  });
+}
+
+function buildPacing(){
+  const tt=document.getElementById("train-table");
+  TRAIN_PACES.forEach(p=>{
+    const d=document.createElement("div");
+    d.className="train-row";
+    d.innerHTML=`<div class="tr-type">${p.type}</div>
+      <div><div class="tr-pace">${p.pace} <span style="color:#94a3b8;font-size:11px;font-weight:400">· ❤️ ${p.hr}</span></div>
+      <div class="tr-why">${p.why}</div></div>`;
+    tt.appendChild(d);
+  });
+  const r1=document.getElementById("r1-splits");
+  R1S.forEach(sp=>{r1.innerHTML+=`<div class="split-row"><div class="split-seg" style="color:${sp.c}">${sp.seg}</div><div><div class="split-pace" style="color:${sp.c}">⏱ ${sp.pace}/km · ❤️ ${sp.hr} bpm</div><div class="split-note">${sp.note}</div></div></div>`;});
+  const r2=document.getElementById("r2-splits");
+  R2S.forEach(sp=>{r2.innerHTML+=`<div class="split-row"><div class="split-seg" style="color:${sp.c}">${sp.seg}</div><div><div class="split-pace" style="color:${sp.c}">⏱ ${sp.pace}/km · ❤️ ${sp.hr} bpm</div><div class="split-note">${sp.note}</div></div></div>`;});
+}
+
+function buildStrength(){
+  const sl=document.getElementById("strength-list");
+  ST_DATA.forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className="str-card";
+    d.innerHTML=`<div class="str-num">${String(i+1).padStart(2,"0")}</div>
+      <div style="flex:1"><div class="str-name">${s.n}</div><div class="str-sets">▸ ${s.s}</div><div class="str-p">${s.p}</div></div>
+      <a href="${s.y}" target="_blank" class="vid-btn">▶ VIDEO</a>`;
+    sl.appendChild(d);
+  });
+}
+
+function buildZones(){
+  const zl=document.getElementById("zones-list");
+  ZONES.forEach(z=>{zl.innerHTML+=`<div class="zone-card" style="border-left-color:${z.color}"><div class="zc-row"><div class="zc-name" style="color:${z.color}">${z.z} — ${z.name}</div><div class="zc-range">${z.range} bpm</div></div><div class="zc-feel">Feel: ${z.feel}</div></div>`;});
+  const rl=document.getElementById("rules-list");
+  RULES.forEach(r=>{rl.innerHTML+=`<div class="rule-row"><div class="rule-r">${r.r}</div><div class="rule-a">${r.a}</div></div>`;});
+}
+
+function showTab(id,btn){
+  ["plan","pacing","strength","zones"].forEach(t=>{document.getElementById("tab-"+t).style.display=t===id?"block":"none";});
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+buildPlan(); buildPacing(); buildStrength(); buildZones();
+</script>
+</body>
+</html>
